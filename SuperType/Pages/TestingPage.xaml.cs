@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace SuperType.Pages
 {
@@ -21,12 +22,15 @@ namespace SuperType.Pages
     /// </summary>
     public partial class TestingPage : Page
     {
+        int letterCount;
         int TypedCount;
         int TrueTypedCount;
-        TimeSpan StartTime;
+        DateTime StartTime;
+        bool running;
         void LoadText()
         {
             var text = File.ReadAllText("Textarium\\shop1.txt");
+            letterCount = text.Length;
             foreach (var c in text)
             {
                 var addTB = new TextBlock() { Text = c.ToString(), FontSize = 19 };
@@ -38,22 +42,48 @@ namespace SuperType.Pages
         {
             InitializeComponent();
             LoadText();
+            DispatcherTimer dt = new DispatcherTimer();
+            dt.Tick += (o, e) =>
+            {
+                if (!running)
+                    return;
+                if(letterCount == TrueTypedCount)
+                {
+                    running = false;
+                    return;
+                }
+                var testTime = DateTime.Now - StartTime;
+                var spm = TrueTypedCount / testTime.TotalMinutes;
+                SpeedTB.Text = Math.Round(spm, 1).ToString();
+                AccTB.Text = (Math.Round((double)TrueTypedCount / (double)TypedCount * 100, 1)).ToString();
+
+            };
+            dt.Interval = TimeSpan.FromMilliseconds(500);
+            dt.Start();
         }
 
         private void ScrollViewer_TextInput(object sender, TextCompositionEventArgs e)
         {
+            if (TypedCount == 0)
+            {
+                StartTime = DateTime.Now;
+                running = true;
+            }
+            TypedCount++;
             Console.WriteLine(e.Text);
             var last = LettersPanel.Children[0] as TextBlock;
             var current = last.Text;
-            if(current == e.Text)
+            if (current == e.Text)
             {
                 LettersPanel.Children.RemoveAt(0);
                 (LettersPanel.Children[0] as TextBlock).Background = new SolidColorBrush(Colors.Orange);
+                TrueTypedCount++;
             }
             else
             {
                 (LettersPanel.Children[0] as TextBlock).Background = new SolidColorBrush(Colors.Red);
             }
+
         }
     }
 }

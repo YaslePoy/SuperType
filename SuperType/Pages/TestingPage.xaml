@@ -16,13 +16,13 @@
         <StackPanel>
             <TextBlock Margin="5">Type speed</TextBlock>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Margin="5" FontSize="25">9999</TextBlock>
+                <TextBlock x:Name="SpeedTB" Margin="5" FontSize="25">0</TextBlock>
                 <TextBlock VerticalAlignment="Bottom" Margin="5" FontSize="17">SPM</TextBlock>
 
             </StackPanel>
             <TextBlock Margin="5">Type accuracy</TextBlock>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Margin="5" FontSize="25">100</TextBlock>
+                <TextBlock x:Name="AccTB" Margin="5" FontSize="25">0</TextBlock>
                 <TextBlock VerticalAlignment="Bottom" Margin="5" FontSize="17">%</TextBlock>
             </StackPanel>
             <Button Content="Start typing" Margin="5" HorizontalAlignment="Center" Padding="10"/>
