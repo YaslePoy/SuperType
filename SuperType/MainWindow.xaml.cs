@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using SuperType.Pages;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +20,11 @@ namespace SuperType
         public MainWindow()
         {
             InitializeComponent();
+            FrameworkElement.StyleProperty.OverrideMetadata(typeof(Window), new FrameworkPropertyMetadata
+            {
+                DefaultValue = FindResource(typeof(Window))
+            });
+            MainFrame.Navigate(new StartPage());
         }
     }
 }

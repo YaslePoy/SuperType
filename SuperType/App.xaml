@@ -4,6 +4,8 @@
              xmlns:local="clr-namespace:SuperType"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="Bahnschrift" />
+        </Style>
     </Application.Resources>
 </Application>
